@@ -38,14 +38,14 @@ export default function RandomTease() {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 relative z-10 -mt-20 md:-mt-40 pointer-events-none">
+    <div className="w-full max-w-7xl mx-auto px-6 py-12 md:py-20">
       <div className="w-full md:w-2/3 lg:w-1/2">
-        <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.1] text-foreground/20 italic tracking-tighter mix-blend-difference break-words">
+        <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.1] text-foreground/80 italic tracking-tighter mix-blend-difference break-words drop-shadow-lg">
           {displayedText}
           <motion.span
             animate={{ opacity: [1, 0] }}
             transition={{ repeat: Infinity, duration: 0.8 }}
-            className="inline-block ml-2 w-4 md:w-8 h-8 md:h-16 bg-foreground/40 align-middle"
+            className="inline-block ml-2 w-4 md:w-8 h-8 md:h-16 bg-foreground/80 align-middle"
           />
         </h2>
       </div>
