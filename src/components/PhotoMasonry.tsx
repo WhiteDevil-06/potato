@@ -36,7 +36,7 @@ const SPECIFIC_CAPTIONS: Record<number, string> = {
   29: "I'm literally just the unpaid personal photographer.",
   30: "Why are you like this?",
   31: "Sometimes I seriously wonder if we are actually related.",
-  32: "Mom's favorite, obviously. (I'm the favorite).",
+  32: "The rare moment we pretended to be well-behaved in public.",
   33: "A rare sighting of the Peddhu in the wild.",
   34: "She's incredibly lucky I have the patience of a saint.",
   35: "I have absolutely no idea what is happening here.",
