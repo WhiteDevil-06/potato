@@ -93,59 +93,67 @@ export default function PhotoMasonry() {
         </p>
       </motion.div>
 
-      {/* Clean Pinterest-style Masonry Grid */}
-      <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 w-full max-w-6xl mx-auto">
-        {MEDIA_ITEMS.map((media, index) => (
-          <motion.div
-            key={media.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: (index % 3) * 0.1, duration: 0.6 }}
-            className="break-inside-avoid relative group cursor-pointer w-full mb-6"
-          >
-            <div className="w-full bg-foreground/5 rounded-md overflow-hidden relative shadow-sm transition-all duration-500 ease-out group-hover:shadow-xl group-hover:scale-[1.02]">
-              
-              {media.type === "video" ? (
-                <video 
-                  src={media.src}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-auto object-cover"
-                />
-              ) : (
-                <img 
-                  src={media.src}
-                  alt={`Memory ${media.id}`}
-                  loading="lazy"
-                  className="w-full h-auto object-cover"
-                  onError={(e) => {
-                    // Fallback visual if HEIC breaks
-                    if (media.src.toLowerCase().includes('.heic')) {
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.parentElement!.innerHTML = '<div class="p-8 text-center font-mono text-xs text-foreground/50 border border-dashed border-foreground/20 rounded">UNSUPPORTED FORMAT (HEIC). Please convert to JPG.</div>';
-                    }
-                  }}
-                />
-              )}
-              
-              <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-500" />
-            </div>
-
-            <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute -bottom-10 left-0 right-0 bg-background/90 backdrop-blur-sm p-3 rounded z-20 pointer-events-none text-center shadow-lg border border-foreground/10">
-              <div className="text-xs font-mono uppercase tracking-widest text-accent mb-1">
-                {media.category}
-              </div>
-              <div className="font-serif text-sm text-foreground/90 italic">
-                "{media.caption}"
-              </div>
-              <div className="text-[10px] text-foreground/30 font-mono mt-1">
-                FILE_{media.id.toString().padStart(3, '0')}
-              </div>
-            </div>
-          </motion.div>
+      {/* Manual Flex Masonry Grid for perfect scroll animation */}
+      <div className="flex flex-col sm:flex-row gap-6 w-full max-w-6xl mx-auto">
+        {[
+          MEDIA_ITEMS.filter((_, i) => i % 3 === 0),
+          MEDIA_ITEMS.filter((_, i) => i % 3 === 1),
+          MEDIA_ITEMS.filter((_, i) => i % 3 === 2)
+        ].map((col, colIndex) => (
+          <div key={colIndex} className="flex-1 flex flex-col gap-6">
+            {col.map((media, itemIndex) => (
+              <motion.div
+                key={media.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "100px" }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="relative group cursor-pointer w-full"
+              >
+                <div className="w-full bg-foreground/5 rounded-md overflow-hidden relative shadow-sm transition-all duration-500 ease-out group-hover:shadow-xl group-hover:scale-[1.02]">
+                  
+                  {media.type === "video" ? (
+                    <video 
+                      src={media.src}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-auto object-cover block"
+                    />
+                  ) : (
+                    <img 
+                      src={media.src}
+                      alt={`Memory ${media.id}`}
+                      loading="lazy"
+                      className="w-full h-auto object-cover block"
+                      onError={(e) => {
+                        if (media.src.toLowerCase().includes('.heic')) {
+                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.parentElement!.innerHTML = '<div class="p-8 text-center font-mono text-xs text-foreground/50 border border-dashed border-foreground/20 rounded">UNSUPPORTED FORMAT.</div>';
+                        }
+                      }}
+                    />
+                  )}
+                  
+                  {/* Inside-Image Caption Hover Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 md:p-6 text-left">
+                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      <div className="text-[10px] md:text-xs font-mono uppercase tracking-widest text-[#d4a373] mb-1.5 drop-shadow-md">
+                        {media.category}
+                      </div>
+                      <div className="font-serif text-sm md:text-base text-white italic drop-shadow-md leading-snug">
+                        "{media.caption}"
+                      </div>
+                      <div className="text-[9px] md:text-[10px] text-white/50 font-mono mt-2">
+                        FILE_{media.id.toString().padStart(3, '0')}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         ))}
       </div>
     </motion.div>
