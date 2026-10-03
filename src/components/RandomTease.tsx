@@ -40,7 +40,7 @@ export default function RandomTease() {
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-12 md:py-20">
       <div className="w-full md:w-2/3 lg:w-1/2">
-        <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.1] text-foreground/80 italic tracking-tighter mix-blend-difference break-words drop-shadow-lg">
+        <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.1] text-foreground/80 italic tracking-tighter mix-blend-difference break-words drop-shadow-lg">
           {displayedText}
           <motion.span
             animate={{ opacity: [1, 0] }}

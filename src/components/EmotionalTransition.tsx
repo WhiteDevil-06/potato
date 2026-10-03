@@ -130,11 +130,11 @@ export default function EmotionalTransition() {
   return (
     <div className="w-full flex flex-col items-center">
       
-      {/* THE FLASHLIGHT IN THE DARK (SCROLL TRAP) */}
+      {/* THE FLASHLIGHT IN THE DARK (SCROLL TRAP ONLY ON DESKTOP) */}
       <section 
         ref={flashlightRef}
         onPointerMove={handlePointerMove}
-        className="relative w-full h-[120vh] flex flex-col items-center justify-center overflow-hidden transition-colors duration-1000 touch-none"
+        className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden transition-colors duration-1000 md:touch-none"
         style={{ 
           backgroundColor: lightsOn ? 'var(--background)' : '#050505',
           color: lightsOn ? 'var(--foreground)' : '#ffffff',
@@ -142,70 +142,73 @@ export default function EmotionalTransition() {
         }}
       >
         {!lightsOn && (
-          <div className="absolute top-10 left-1/2 -translate-x-1/2 text-white/20 font-mono text-xs tracking-widest uppercase animate-pulse">
-            [ Search in the dark ]
+          <div className="absolute top-10 left-1/2 -translate-x-1/2 text-white/20 font-mono text-xs tracking-widest uppercase animate-pulse w-full text-center px-4">
+            <span className="hidden md:inline">[ Search in the dark ]</span>
+            <span className="inline md:hidden">[ Tap below in the dark ]</span>
           </div>
         )}
 
-        {/* Content Wrapper - Masked when lights are off */}
+        {/* Content Wrapper - Masked when lights are off on desktop. On mobile, we use a CSS fallback or disable the mask */}
         <div 
           className="absolute inset-0 w-full h-full pointer-events-none"
           style={!lightsOn ? {
-            WebkitMaskImage: `radial-gradient(circle 220px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`,
-            maskImage: `radial-gradient(circle 220px at ${mousePos.x}px ${mousePos.y}px, black 0%, transparent 100%)`
+            WebkitMaskImage: `radial-gradient(circle 220px at ${mousePos.x ? mousePos.x + 'px' : '50%'} ${mousePos.y ? mousePos.y + 'px' : '80%'}, black 0%, transparent 100%)`,
+            maskImage: `radial-gradient(circle 220px at ${mousePos.x ? mousePos.x + 'px' : '50%'} ${mousePos.y ? mousePos.y + 'px' : '80%'}, black 0%, transparent 100%)`
           } : {}}
         >
-          {/* THE 3x3 GRID - GUARANTEES ZERO OVERLAP */}
-          <div className="w-full h-full grid grid-cols-1 md:grid-cols-3 grid-rows-3 gap-8 p-12 md:p-24 relative">
+          {/* MOBILE SAFE GRID: Stacks vertically on mobile, 3x3 on desktop */}
+          <div className="w-full h-full flex flex-col md:grid md:grid-cols-3 md:grid-rows-3 gap-8 p-8 md:p-24 relative justify-center md:justify-stretch">
             
             {/* Top Left */}
-            <div className={clsx("col-start-1 row-start-1 flex items-start justify-start transition-opacity duration-1000", lightsOn ? "opacity-0" : "opacity-100")}>
-              <div className="font-serif italic text-2xl md:text-3xl text-foreground/80 max-w-[250px]">
+            <div className={clsx("md:col-start-1 md:row-start-1 flex items-start justify-center md:justify-start transition-opacity duration-1000", lightsOn ? "opacity-0 hidden md:flex" : "opacity-100")}>
+              <div className="font-serif italic text-xl sm:text-2xl md:text-3xl text-foreground/80 max-w-[250px] text-center md:text-left">
                 Okay, Potato.
               </div>
             </div>
 
             {/* Top Right */}
-            <div className={clsx("col-start-1 md:col-start-3 row-start-1 flex items-start justify-start md:justify-end transition-opacity duration-1000", lightsOn ? "opacity-0" : "opacity-100")}>
-              <div className="font-serif italic text-2xl md:text-4xl text-left md:text-right max-w-[350px] tracking-tight">
+            <div className={clsx("md:col-start-3 md:row-start-1 flex items-start justify-center md:justify-end transition-opacity duration-1000", lightsOn ? "opacity-0 hidden md:flex" : "opacity-100")}>
+              <div className="font-serif italic text-xl sm:text-2xl md:text-4xl text-center md:text-right max-w-[350px] tracking-tight">
                 There's something I've never really known how to say properly.
               </div>
             </div>
 
             {/* Middle Left */}
-            <div className={clsx("col-start-1 row-start-2 flex items-center justify-start transition-opacity duration-1000", lightsOn ? "opacity-0" : "opacity-100")}>
-              <div className="font-mono text-xs md:text-sm uppercase tracking-[0.3em] max-w-[280px] text-current opacity-70">
+            <div className={clsx("md:col-start-1 md:row-start-2 flex items-center justify-center md:justify-start transition-opacity duration-1000", lightsOn ? "opacity-0 hidden md:flex" : "opacity-100")}>
+              <div className="font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] max-w-[280px] text-current opacity-70 text-center md:text-left">
                 You don't have to call me every day.
               </div>
             </div>
 
-            {/* Middle Center (Formerly Sister) */}
-            <div className={clsx("col-start-1 md:col-start-2 row-start-2 flex items-center justify-center transition-opacity duration-1000", lightsOn ? "opacity-0" : "opacity-100")}>
-              <div className="font-serif italic text-2xl md:text-4xl text-center max-w-[400px]">
+            {/* Middle Center */}
+            <div className={clsx("md:col-start-2 md:row-start-2 flex items-center justify-center transition-opacity duration-1000", lightsOn ? "opacity-0 hidden md:flex" : "opacity-100")}>
+              <div className="font-serif italic text-xl sm:text-2xl md:text-4xl text-center max-w-[400px]">
                 Just call when you need your annoying younger brother. I'll pick up.
               </div>
             </div>
 
             {/* Middle Right */}
-            <div className={clsx("col-start-1 md:col-start-3 row-start-2 flex items-center justify-start md:justify-end transition-opacity duration-1000", lightsOn ? "opacity-0" : "opacity-100")}>
-              <div className="font-serif text-3xl md:text-4xl font-light text-left md:text-right max-w-[280px] tracking-tight">
+            <div className={clsx("md:col-start-3 md:row-start-2 flex items-center justify-center md:justify-end transition-opacity duration-1000", lightsOn ? "opacity-0 hidden md:flex" : "opacity-100")}>
+              <div className="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-center md:text-right max-w-[280px] tracking-tight">
                 You don't even have to explain everything.
               </div>
             </div>
 
             {/* Bottom Right: SISTER */}
-            <div className="col-start-1 md:col-start-3 row-start-3 flex flex-col items-end justify-end relative">
+            <div className="md:col-start-3 md:row-start-3 flex flex-col items-center md:items-end justify-center md:justify-end relative mt-12 md:mt-0">
               <div 
                 onPointerEnter={() => {
                   if (!lightsOn) setTimeout(() => setLightsOn(true), 300);
                 }}
-                className="font-serif text-6xl md:text-8xl uppercase tracking-tighter pointer-events-auto hover:text-[#d4a373] transition-colors duration-500 cursor-pointer"
+                onClick={() => setLightsOn(true)}
+                className="font-serif text-5xl sm:text-6xl md:text-8xl uppercase tracking-tighter pointer-events-auto hover:text-[#d4a373] transition-colors duration-500 cursor-pointer"
               >
                 Sister
               </div>
               {!lightsOn && (
-                <div className="absolute bottom-[-30px] right-0 font-mono text-[10px] text-current opacity-30 tracking-widest uppercase animate-pulse whitespace-nowrap">
-                  (Hover to illuminate)
+                <div className="absolute bottom-[-30px] font-mono text-[10px] text-current opacity-30 tracking-widest uppercase animate-pulse whitespace-nowrap">
+                  <span className="hidden md:inline">(Hover to illuminate)</span>
+                  <span className="inline md:hidden">(Tap to illuminate)</span>
                 </div>
               )}
             </div>
@@ -264,9 +267,11 @@ export default function EmotionalTransition() {
                           onPointerDown={() => setIsDecrypting(true)}
                           onPointerUp={() => setIsDecrypting(false)}
                           onPointerLeave={() => setIsDecrypting(false)}
-                          className="px-8 py-4 border-2 border-[#d4a373] text-[#d4a373] font-mono text-sm tracking-widest uppercase rounded hover:bg-[#d4a373]/10 active:scale-95 transition-all select-none touch-none"
+                          onTouchStart={(e) => { e.preventDefault(); setIsDecrypting(true); }}
+                          onTouchEnd={(e) => { e.preventDefault(); setIsDecrypting(false); }}
+                          className="px-8 py-4 border-2 border-[#d4a373] text-[#d4a373] font-mono text-xs md:text-sm tracking-widest uppercase rounded hover:bg-[#d4a373]/10 active:scale-95 transition-all select-none touch-none"
                         >
-                          Hold to Decrypt Core Memory
+                          Hold to Confirm Your Status as 'Potato'
                         </button>
                         <div className="w-full max-w-xs h-1 bg-white/10 mt-6 rounded-full overflow-hidden">
                           <div 
@@ -348,12 +353,12 @@ export default function EmotionalTransition() {
                       Happy Birthday.
                     </h2>
                     <div className="font-serif italic text-foreground/70 space-y-4 leading-relaxed">
-                      <p>Four years ago, I just got a friend.</p>
-                      <p>Somewhere along the way, against all odds, I got an elder sister.</p>
-                      <p>I wouldn't trade that for anything.</p>
+                      <p>As your officially self-appointed younger brother, I am legally obligated to wish you today.</p>
+                      <p>Life is weird. Four years of putting up with your drama, and somehow you just became family.</p>
+                      <p>I will never say this out loud (so take a screenshot), but you're the exact elder sister I needed to annoy, argue with, and rely on.</p>
                     </div>
                     <div className="font-mono text-xs text-foreground/40 pt-8 uppercase tracking-widest">
-                      Unfortunately, you're stuck with me.
+                      Have the best day ever. The roasting resumes tomorrow.
                     </div>
                     
                     {/* Barcode */}

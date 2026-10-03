@@ -93,18 +93,18 @@ export default function PhotoMasonry() {
         </p>
       </motion.div>
 
-      {/* Clean Pinterest-style Masonry Grid */}
-      <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 w-full max-w-6xl mx-auto">
+      {/* Clean Pinterest-style Masonry Grid - 2 columns on mobile, 3 on desktop */}
+      <div className="columns-2 lg:columns-3 gap-3 md:gap-6 w-full max-w-6xl mx-auto px-1 md:px-0">
         {MEDIA_ITEMS.map((media, index) => (
           <motion.div
             key={media.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: (index % 3) * 0.1, duration: 0.6 }}
-            className="break-inside-avoid relative group cursor-pointer w-full mb-6"
+            initial={{ opacity: 0, y: 60, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: false, amount: 0.15 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="break-inside-avoid relative group cursor-pointer w-full mb-3 md:mb-6"
           >
-            <div className="w-full bg-foreground/5 rounded-md overflow-hidden relative shadow-sm transition-all duration-500 ease-out group-hover:shadow-xl group-hover:scale-[1.02]">
+            <div className="w-full bg-foreground/5 rounded-md overflow-hidden relative shadow-sm transition-all duration-500 ease-out lg:group-hover:shadow-xl lg:group-hover:scale-[1.02]">
               
               {media.type === "video" ? (
                 <video 
@@ -130,16 +130,16 @@ export default function PhotoMasonry() {
                 />
               )}
               
-              {/* Inside-Image Caption Hover Effect */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 md:p-6 text-left pointer-events-none">
-                <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  <div className="text-[10px] md:text-xs font-mono uppercase tracking-widest text-[#d4a373] mb-1.5 drop-shadow-md">
+              {/* Inside-Image Caption - Always visible on mobile, hover on desktop */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 md:p-6 text-left pointer-events-none">
+                <div className="translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-300">
+                  <div className="text-[9px] md:text-xs font-mono uppercase tracking-widest text-[#d4a373] mb-1 md:mb-1.5 drop-shadow-md">
                     {media.category}
                   </div>
-                  <div className="font-serif text-sm md:text-base text-white italic drop-shadow-md leading-snug">
+                  <div className="font-serif text-xs sm:text-sm md:text-base text-white italic drop-shadow-md leading-snug">
                     "{media.caption}"
                   </div>
-                  <div className="text-[9px] md:text-[10px] text-white/50 font-mono mt-2">
+                  <div className="text-[8px] md:text-[10px] text-white/50 font-mono mt-1 md:mt-2">
                     FILE_{media.id.toString().padStart(3, '0')}
                   </div>
                 </div>

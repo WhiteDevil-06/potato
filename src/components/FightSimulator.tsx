@@ -144,7 +144,7 @@ export default function FightSimulator({ onArgumentWon }: { onArgumentWon?: () =
               key="result"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="w-full font-mono text-sm max-w-lg bg-background border-x border-b border-foreground/20 p-8 md:p-12 shadow-2xl relative"
+              className="w-full font-mono text-sm max-w-lg bg-background border-x border-b border-foreground/20 p-5 md:p-12 shadow-2xl relative"
             >
               {/* Receipt-style jagged top */}
               <div className="absolute top-0 left-0 w-full h-2 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPjxwb2x5Z29uIHBvaW50cz0iMCwwIDQsOCA4LDAiIGZpbGw9IiNmZmYiLz48L3N2Zz4=')] -mt-1" style={{ backgroundSize: '8px 8px' }}></div>
